@@ -4,7 +4,7 @@ metadata:
   name: nginx-app-2
   namespace: argocd
 spec:
-  project: default
+  project: sapir
   source:
     repoURL: 'https://github.com/dordavid015/argo'
     targetRevision: HEAD
