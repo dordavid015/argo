@@ -4,14 +4,14 @@ metadata:
   name: nginx-app-1
   namespace: argocd
 spec:
-  project: dor
+  project: default
   source:
     repoURL: 'https://github.com/dordavid015/argo'
     targetRevision: HEAD
     path: ./apps-manifest/1
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: default
+    namespace: dor
   syncPolicy:
     automated:
       prune: true

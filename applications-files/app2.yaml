@@ -4,14 +4,14 @@ metadata:
   name: nginx-app-2
   namespace: argocd
 spec:
-  project: sapir
+  project: default
   source:
     repoURL: 'https://github.com/dordavid015/argo'
     targetRevision: HEAD
     path: ./apps-manifest/2
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: default
+    namespace: sapir
   syncPolicy:
     automated:
       prune: true
