@@ -13,9 +13,14 @@ spec:
       elements:
       - applicationurl: https://github.com/dordavid015/argo.git
         apppath: template-design/bootstrap
-        apptargetrevision: cicd-bootstrap
+        apptargetrevision: main
         valuesfiles: '/template-design/clusters/cicd/cicd-bootstrap-values.yaml'
         appname: cicd-cluster-bootstrap-components
+      - applicationurl: https://github.com/dordavid015/argo.git
+        apppath: template-design/paas
+        apptargetrevision: main
+        valuesfiles: '/template-design/clusters/cicd/cicd-paas-values.yaml'
+        appname: cicd-cluster-paas-components
   template:
     metadata:
       name: '{{ appname }}'  # Corrected this line
@@ -30,7 +35,7 @@ spec:
           - '{{ valuesfiles }}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: cicd
+        namespace: default
       syncPolicy:
         automated:
           prune: true
