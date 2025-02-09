@@ -1,0 +1,4 @@
+app1:
+  name: bootstrap-override-my-nginx-1
+app2:
+  name: bootstrap-override-my-nginx-2
