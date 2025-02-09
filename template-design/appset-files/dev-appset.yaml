@@ -3,7 +3,7 @@ kind: ApplicationSet
 metadata:
   labels:
     openshift.gitops/environment: dev
-  name: cicd-bootstrap
+  name: dev-bootstrap
   namespace: argocd
 spec:
   syncPolicy:
@@ -14,13 +14,13 @@ spec:
       - applicationurl: https://github.com/dordavid015/argo.git
         apppath: template-design/bootstrap
         apptargetrevision: main
-        valuesfiles: '/template-design/clusters/cicd/cicd-bootstrap-values.yaml'
-        appname: cicd-cluster-bootstrap-components
+        valuesfiles: '/template-design/clusters/dev/dev-bootstrap-values.yaml'
+        appname: dev-cluster-bootstrap-components
       - applicationurl: https://github.com/dordavid015/argo.git
         apppath: template-design/paas
         apptargetrevision: main
-        valuesfiles: '/template-design/clusters/cicd/cicd-paas-values.yaml'
-        appname: cicd-cluster-paas-components
+        valuesfiles: '/template-design/clusters/dev/dev-paas-values.yaml'
+        appname: dev-cluster-paas-components
   template:
     metadata:
       name: '{{ appname }}'  # שם ידרוס את השם הקודם אם יש
@@ -35,7 +35,7 @@ spec:
           - '{{ valuesfiles }}'  # העברת קובץ ה-Values המתאים
       destination:
         server: https://kubernetes.default.svc
-        namespace: default
+        namespace: dor
       syncPolicy:
         automated:
           prune: true
