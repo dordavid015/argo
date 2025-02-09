@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  labels:
+    openshift.gitops/environment: dev
+  name: cicd-bootstrap
+  namespace: argocd
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+  - list:
+      elements:
+      - applicationurl: https://github.com/dordavid015/argo.git
+        apppath: template-design/bootstrap
+        apptargetrevision: cicd-bootstrap
+        valuesfiles: '/template-design/clusters/cicd/cicd-bootstrap-values.yaml'
+        appname: cicd-cluster-bootstrap-components
+  template:
+    metadata:
+      name: '{{ appname }}'  # Corrected this line
+    spec:
+      project: default
+      source:
+        path: '{{ apppath }}'
+        repoURL: '{{ applicationurl }}'
+        targetRevision: '{{ apptargetrevision }}'
+        helm:
+          valueFiles:
+          - '{{ valuesfiles }}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: cicd
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - preserveResourceOnDeletion=true
+          - CreateNamespace=false
+          - PruneLast=false
+          - ApplyOutOfSyncOnly=true
+          - Replace=false
+      ignoreDifferences:
+        - kind: Pod
+          namespace: paas-benchmark
+          jsonPointers:
+            - /spec
+            - /status
